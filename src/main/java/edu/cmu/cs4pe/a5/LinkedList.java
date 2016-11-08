@@ -108,6 +108,12 @@ public class LinkedList {
 		}
 	}
 
+	public void forEachReversed(Consumer<Object> consumer) {
+		for (Element cur = this.tail; cur != null; cur = cur.getPrevious()) {
+			consumer.accept(cur.getData());
+		}
+	}
+
 	/**
 	 * Element in a linked list.
      */

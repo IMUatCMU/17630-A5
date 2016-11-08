@@ -3,24 +3,25 @@ package edu.cmu.cs4pe.a5;
 public class NDegreeSearch {
 
     private final int maxDegree;
+    private final Actor from;
+    private final Actor to;
 
-    public NDegreeSearch(int maxDegree) {
+    public NDegreeSearch(int maxDegree, final Actor from, final Actor to) {
         this.maxDegree = maxDegree;
+        this.from = from;
+        this.to = to;
     }
 
-    public Stack search(Actor one, Actor two) {
-        if (one.getName().equals(two.getName()))
+    public void search() {
+        if (from.getName().equals(to.getName()))
             throw new RuntimeException("same actors provided");
 
         Stack progress = new Stack();
-        doSearch(progress, one, two, -1);
-
-        return reverse(progress);
+        doSearch(progress, from, to, -1);
     }
 
-    @SuppressWarnings("unchecked")
-    public void searchFormatted(Actor one, Actor two) {
-        Stack result = search(one, two);
+    private void printPath(Stack progress) {
+        Stack result = progress.reverseStack();
 
         String separation;
         if (result.getSize() == 0)
@@ -28,48 +29,40 @@ public class NDegreeSearch {
         else
             separation = String.format("%d degree%s of separation", result.getSize() - 1, result.getSize() - 1 > 1 ? "s" : "");
 
-        String query = String.format("%s -> %s", one.getName(), two.getName());
+        String query = String.format("%s -> %s", from.getName(), to.getName());
 
         StringBuilder details = new StringBuilder();
-        String lastName = one.getName();
+        Actor lastActor = from;
         while(result.getSize() > 0) {
             String format = "\t %s: %s; %s\n";
-            Pair<Movie, Actor> edge = (Pair<Movie, Actor>) result.pop();
-            details.append(String.format(format, edge.getFirst().getName(), lastName, edge.getSecond().getName()));
-            lastName = edge.getSecond().getName();
+            Movie edge = (Movie) result.pop();
+            details.append(String.format(format, edge.getName(), lastActor.getName(), edge.getOtherActor(lastActor).getName()));
+            lastActor = edge.getOtherActor(lastActor);
         }
 
         System.out.printf("%s: %s\n%s", query, separation, details.toString());
+        System.out.print("\n------\n");
     }
 
     @SuppressWarnings("unchecked")
-    private boolean doSearch(Stack progress, Actor cursor, Actor target, int currentDegree) {
+    private void doSearch(Stack progress, Actor cursor, Actor target, int currentDegree) {
         if (currentDegree > this.maxDegree)
-            return false;
+            return;
         else if (cursor.getName().equals(target.getName()))
-            return true;
+            printPath(progress);
 
-        try {
-            cursor.getLinkages().forEach(o -> {
-                Pair<Movie, Actor> edge = (Pair<Movie, Actor>) o;
-                progress.push(edge);
-                boolean found = doSearch(progress, edge.getSecond(), target, currentDegree + 1);
-                if (found)
-                    throw new Found();
-                progress.pop();
-            });
-        } catch (Found f) {
-            return true;
-        }
+        cursor.getMovies().forEach(o -> {
+            Movie edge = (Movie) o;
 
-        return false;
-    }
+            // we want to check if "edge" is pointing back again
+            if (edge.equals(progress.peek())) {
+                return;
+            }
 
-    private Stack reverse(Stack s) {
-        Stack s2 = new Stack();
-        while (s.getSize() != 0)
-            s2.push(s.pop());
-        return s2;
+            progress.push(edge);
+            doSearch(progress, edge.getOtherActor(cursor), target, currentDegree + 1);
+            progress.pop();
+        });
     }
 
     public int getMaxDegree() {

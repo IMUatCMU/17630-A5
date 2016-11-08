@@ -29,4 +29,10 @@ public class Stack {
     private int last() {
         return this.list.getSize() - 1;
     }
+
+    public Stack reverseStack() {
+        Stack reverse = new Stack();
+        this.list.forEachReversed(reverse::push);
+        return reverse;
+    }
 }
