@@ -26,6 +26,10 @@ public class Stack {
         return this.list.getSize();
     }
 
+    public boolean contains(Object obj) {
+        return this.list.find(o -> o == obj) != null;
+    }
+
     private int last() {
         return this.list.getSize() - 1;
     }

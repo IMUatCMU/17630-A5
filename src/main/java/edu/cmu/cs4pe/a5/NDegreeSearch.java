@@ -17,7 +17,8 @@ public class NDegreeSearch {
             throw new RuntimeException("same actors provided");
 
         Stack progress = new Stack();
-        doSearch(progress, from, to, -1);
+        Stack history = new Stack();
+        doSearch(progress, history, from, to, -1);
     }
 
     private void printPath(Stack progress) {
@@ -45,24 +46,32 @@ public class NDegreeSearch {
     }
 
     @SuppressWarnings("unchecked")
-    private void doSearch(Stack progress, Actor cursor, Actor target, int currentDegree) {
+    private void doSearch(Stack progress, Stack history, Actor cursor, Actor target, int currentDegree) {
         if (currentDegree > this.maxDegree)
             return;
         else if (cursor.getName().equals(target.getName()))
             printPath(progress);
 
+        history.push(cursor);
         cursor.getMovies().forEach(o -> {
             Movie edge = (Movie) o;
+            Actor nextCursor = edge.getOtherActor(cursor);
 
             // we want to check if "edge" is pointing back again
-            if (edge.equals(progress.peek())) {
+            if (history.contains(nextCursor)) {
                 return;
+            }
+            // do not allow the next edge be the same movie
+            else if (progress.getSize() > 0) {
+                if (((Movie) progress.peek()).getName().equals(edge.getName()))
+                    return;
             }
 
             progress.push(edge);
-            doSearch(progress, edge.getOtherActor(cursor), target, currentDegree + 1);
+            doSearch(progress, history, nextCursor, target, currentDegree + 1);
             progress.pop();
         });
+        history.pop();
     }
 
     public int getMaxDegree() {
