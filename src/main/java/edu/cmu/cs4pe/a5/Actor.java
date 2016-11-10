@@ -1,5 +1,9 @@
 package edu.cmu.cs4pe.a5;
 
+/**
+ * The Actor model. An actor has a name, and a list of movies
+ * the actor has appeared in. This represents a node in an ActorGraph.
+ */
 public class Actor {
 
     private final String name;

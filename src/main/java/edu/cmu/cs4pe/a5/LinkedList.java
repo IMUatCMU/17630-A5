@@ -3,6 +3,10 @@ package edu.cmu.cs4pe.a5;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/**
+ * A linked list ADT. The linked list holds multiple elements
+ * which can be refered to by the head elements and the tail elements.
+ */
 public class LinkedList {
 
 	private Element head;

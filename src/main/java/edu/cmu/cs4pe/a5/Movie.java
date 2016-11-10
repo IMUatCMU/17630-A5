@@ -1,5 +1,9 @@
 package edu.cmu.cs4pe.a5;
 
+/**
+ * The Movie model. A movie has a name, and has two actors
+ * that appeared in this movie. This represents an edge in an ActorGraph.
+ */
 public class Movie {
 
     private final String name;

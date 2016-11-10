@@ -1,5 +1,9 @@
 package edu.cmu.cs4pe.a5;
 
+/**
+ * A stack ADT. This stack allows you to push and pop objects
+ * in a FIFO manner.
+ */
 public class Stack {
 
     private LinkedList list;

@@ -1,5 +1,9 @@
 package edu.cmu.cs4pe.a5;
 
+/**
+ * The ActorGraph ADT. This data structure represents a graph,
+ * where the nodes are Actors and the edges are Movies.
+ */
 public class ActorGraph {
 
     private LinkedList actors;
