@@ -4,6 +4,30 @@ import java.io.IOException;
 import java.io.FileReader;
 import java.io.BufferedReader;
 
+/**
+ * A5.java
+ * Six Degrees of Separation
+ * Written 11/10/16 by Michael Beck, David Qiu, and Jimmy Sambuo for CMU course 17-630, Assignment #5.
+ *
+ * This program takes a user input filepath specifying the Movie Data text file.
+ * The program then creates a graph of actors from the text file, using linked lists.
+ * Each actor is connected in the graph by movies they had starred in together.
+ * The user is prompted to input any two actor names. The output generated is the actor
+ * connections between those actors, based on movies they've starred in. This is achieved through
+ * recursively searching through connected linked list nodes actor by actor.
+ * The search is limited to 6 degrees of separation from the starting linked list node.
+ * This interface is meant to mimic the popular "Six Degrees of Separation from Kevin Bacon" notion.
+ *
+ * A5.java is the main executable for this program. The program relies on functions
+ * and objects defined in the following files:
+ *
+ * Actor.java
+ * ActorGraph.java
+ * LinkedList.java
+ * Movie.java
+ * NDegreeSearch.java
+ * Stack.java
+ */
 public class A5 {
 
     public static void main(String[] args) {
