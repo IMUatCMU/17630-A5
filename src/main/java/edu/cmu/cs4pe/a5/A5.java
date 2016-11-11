@@ -198,11 +198,9 @@ public class A5 {
 						{
 							for (int j = i + 1; j <actorSplit.length; j++)
 							{
-								if (i != j) {
-									Actor one = graph.findActor(actorSplit[i]);
-									Actor two = graph.findActor(actorSplit[j]);
-									new Movie(movieName, one, two);
-								}
+								Actor one = graph.findActor(actorSplit[i]);
+								Actor two = graph.findActor(actorSplit[j]);
+								new Movie(movieName, one, two);
 							}
 						}
 
