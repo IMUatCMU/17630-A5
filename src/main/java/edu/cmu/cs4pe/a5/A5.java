@@ -52,7 +52,8 @@ public class A5 {
 		ActorGraph graph = new ActorGraph();
 
 
-		//https://www.mkyong.com/java/how-to-read-file-from-java-bufferedreader-example/
+		//File-reading code was altered from https://www.mkyong.com/java/how-to-read-file-from-java-bufferedreader-example/
+		//Attempt to open a specified file and read each line of data
 		try {
 
 			//Prompt the user for the location of the Movie Data text file
@@ -130,6 +131,7 @@ public class A5 {
 						//Add all movie/actor edge lists for the current movie to each actor who starred in the movie
 						for (int i = 0; i < actorSplit.length; i++)
 						{
+							//Do not repeat checks for actors who edges have already been defined
 							for (int j = i + 1; j <actorSplit.length; j++)
 							{
 								Actor one = graph.findActor(actorSplit[i]);
@@ -142,7 +144,7 @@ public class A5 {
 				}
 			}
 
-			//End the program if the user entered an invalid filepath, and print the relevant errors
+		//End the program if the user entered an invalid filepath, and print the relevant errors
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
